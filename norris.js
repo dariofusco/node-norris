@@ -28,6 +28,11 @@ const server = http.createServer((req, res) => {
     fetch(`https://api.chucknorris.io/jokes/random`)
         .then(response => response.json())
         .then(data => {
+
+            if (norrisDb.find(el => el === data.value)) {
+                return;
+            }
+
             norrisDb.push(data.value)
             writeJSONData('norrisDb', norrisDb);
             res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
